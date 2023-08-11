@@ -1,8 +1,8 @@
 from __future__ import annotations # Allows type definitions to work properly
 
-from string import ascii_uppercase      # All uppercase letters in a list
-from dataclasses import dataclass       # Used to create classes faster
-from typing import Literal, List, Union # Used to type class attributes faster
+from string import ascii_uppercase             # All uppercase letters in a list
+from dataclasses import dataclass              # Used to create classes faster
+from typing import Literal, List, Union, Tuple # Used to type class attributes faster
 
 # Forces a value to be an uppercase letter
 UPPERCASE_LETTERS = Literal[ 
@@ -36,7 +36,6 @@ def find_folder(container:Union[Drive, Folder], folder_name:str) -> Folder:
 
 def find_file(container:Union[Drive, Folder], file_name:str) -> File:
     # Finds a file in a specified container
-    print(f"Checking if {container.name} has file {file_name}")
     for item in container.contents:
         if type(item) == File:
             if item.filename == file_name:
@@ -100,11 +99,72 @@ project_folder = Folder("project", [
 
 c = Drive("C", [project_folder])
 
-print(get_file("C://project/images/lake.png", [c]))
+
+def search_folder(folder:Folder, filename:str) -> Tuple[str, Union[File,None]]:
+    """Allows you to find a file in a folder based on filename
+
+    Parameters
+    ----------
+    folder : Folder
+        The folder to search
+
+    filename : str
+        The name of the file to find
+
+    Returns
+    -------
+    Tuple[str, Union[File,None]]
+        Returns the path, and File object if file exists, else returns blank string and None
+    """
+    path = f"/{folder.name}"
+    result_file = None
+    
+    for content in folder.contents:
+        if type(content) == Folder: 
+            result_path, result_file = search_folder(content, filename)
+            if result_path:
+                path += f"{result_path}"
+        else:
+            if content.filename == filename:
+                path += f"/{filename}"
+                result_file = content
+                break
+    if not result_file:
+        return "", None
+
+    return path, result_file
 
 
+def search_file(filename: str, drives:List[Drive]) -> Tuple[str, Union[File, None]]:
+    """Find the absolute path of a file in any location based on filename
 
+    Parameters
+    ----------
+    filename : str
+        The file to search for
 
-def search_file(filename: str, drives:List[Drive]):
+    drives : List[Drive]
+        The drives to search in
+
+    Returns
+    -------
+    Tuple[str, Union[File, None]]
+        Returns the path to the file and the File object if exists, else if file does not exist return blank string and a None
+    """
     for drive in drives:
-        ...
+        path = f"{drive.letter}:/"
+        for contents in drive.contents:
+            if type(contents) == Folder:
+                result_path, file = search_folder(contents, filename)
+                if result_path:
+                    return f"{path}{result_path}", file
+            else:
+                if filename == contents.filename:
+                    path += filename
+                    return path, contents
+    return "", None # Could not find file
+            
+if __name__ == "__main__": 
+    print(get_file("C://project/images/lake.png", [c]))
+    print(search_file("lake.png", [c]))
+    print(search_file("lakse.png", [c]))

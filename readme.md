@@ -23,7 +23,7 @@ If you are unfamiliar with any of the below it's recommended to look into them b
 
 [Cell based encoding](https://schulichignite.com/blog/the-power-of-paths/#cells) is useful for applications where your data is easily structured. Lots of game systems ([chess](https://www.chess.com/terms/chess-notation), battleship, [minesweeper](https://rosettacode.org/wiki/Minesweeper_game#Python) etc.), physics calculations & graphs ([Cartesian coordinates](https://en.wikipedia.org/wiki/Cartesian_coordinate_system#Three_dimensions:~:text=of%20a%20number.-,Three%20dimensions,-%5Bedit%5D)), and even spreadsheets ([A1 or R1C1 Notation](https://bettersolutions.com/excel/formulas/cell-references-a1-r1c1-notation.htm#:~:text=To%20refer%20to%20a%20cell,letter%20and%20a%20row%20number.)).
 
-In our case we have implemented 3 systems to show off how cell-based encoding works:
+In our case we have implemented 3 systems to show off how cell-based encoding works.
 
 ### Chess
 
@@ -45,13 +45,17 @@ In our case we have implemented 3 systems to show off how cell-based encoding wo
 
 ## Delimiters
 
-...
+[Delimiters](https://schulichignite.com/blog/the-power-of-paths/#delimiters) are an incredibly useful encoding for paths. They are used in situations that have containers and items. Items are basically just whatever resource you are looking for (files, location in a map app etc.), containers are something that can contain other containers and/or items (folders, cities in a map app etc.). When we write a path we will specify the container that contains the items and delimit (seperate) them with some sort of indicator. 
+
+As an example we have a virtual filesystem created at `filesystem.py`:
 
 ![](./images/filesystem.png)
 
+We can then say the path to `lake.png` would be `C://project/images/lake.png`.
+
 ## Lookups
 
-Lookups are used to give each item in your search space a unique ID, from this you can directly find a resource. A great example of this is [dictionaries in python](https://realpython.com/python-dicts/). There are tons of ways to use lookups, but the example in `lookup-users.py` is using lookups to locate a specific user based on their email!
+Lookups are used to give each item in your search space a **unique ID**, from this you can directly find a resource. A great example of this is [dictionaries in python](https://realpython.com/python-dicts/). There are tons of ways to use lookups, but the example in `lookup-users.py` is using lookups to locate a specific user based on their email!
 
 ## LR Format
 
