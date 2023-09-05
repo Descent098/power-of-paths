@@ -2,7 +2,7 @@
 
 **BE CAREFUL WHEN RUNNING `shipping_system_example.py` IT USES A LOT OF MEMORY AND MAY FREEZE YOUR COMPUTER**
 
-To show how these systems might interact I have created `shipping-system.py`, which uses lookups, delimiters and cells!
+To show how these systems might interact I have created `shipping_system_example.py`, which uses lookups, delimiters and cells!
 
 The idea is to have a single string encoding that will help to help track shipments. 
 
